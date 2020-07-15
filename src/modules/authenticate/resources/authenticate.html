@@ -1,0 +1,10 @@
+<p medium center>Welcome to ${title}</p>
+<p small center id="output">Please authenticate to continue.</p>
+<div id="inputs" column>
+    <input small left id="name" type="text" placeholder="Name"/>
+    <input small left id="password" type="password" placeholder="Password"/>
+    <div id="buttons" row>
+        <button small center onclick="Authenticate.signUp().then(location.reload.bind(location))">Sign Up</button>
+        <button small center onclick="Authenticate.signIn().then(location.reload.bind(location))">Sign In</button>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+:root {
+    --theme: #FFFFFF;
+    --passive: #333344;
+    --active: #777788;
+    --coaster: #DDDDEE;
+}
+
+body {
+    max-width: 460px;
+}
