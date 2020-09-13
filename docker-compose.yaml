@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  challenge:
+    build: challenge
+    ports:
+    - 8100:80
+
+  administrator:
+    build: administrator

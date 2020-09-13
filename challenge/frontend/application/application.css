@@ -1,0 +1,24 @@
+:root {
+    --theme: #FFFFFF;
+    --passive: #333344;
+    --active: #777788;
+    --coaster: #DDDDEE;
+}
+
+body {
+    max-width: 800px;
+}
+
+#navigation {
+    height: 8vh;
+}
+
+#navigation > img {
+    align-self: center;
+    height: 7vh;
+    width: 7vh;
+}
+
+#contents {
+    min-height: 92vh;
+}
