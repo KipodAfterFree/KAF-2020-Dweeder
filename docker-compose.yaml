@@ -3,7 +3,9 @@ services:
   challenge:
     build: challenge
     ports:
-    - 8100:80
+      - 8100:80
+    environment:
+      - TOKEN_SECRET=382u0hr08hfb
 
   administrator:
     build: administrator
