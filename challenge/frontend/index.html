@@ -56,16 +56,13 @@
         </div>
     </template>
     <template id="dweed-normal">
-        <div style="margin: 1vh;" button column>
+        <div style="margin: 1vh;" onclick="window.location = '?dweed=${id}'" button column>
             <p small left>@${handle}: ${title}</p>
             <p tiny left>${contents}</p>
         </div>
     </template>
     <template id="dweed-compact">
-        <div style="margin: 1vh;" button row>
-            <p tiny center>${title}</p>
-            <button tiny left onclick="window.location = '?dweed=${id}'" style="width: auto;">Open</button>
-        </div>
+        <a button tiny left href="?dweed=${id}">${title} - ${contents}</a>
     </template>
 </head>
 <body column>

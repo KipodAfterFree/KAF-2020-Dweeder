@@ -74,6 +74,23 @@ Base::handle(function ($action, $parameters) {
         // Write dweed
         file_put_contents($file, json_encode($parameters));
 
+        // Check for mentions
+        $words = explode(" ", $parameters->contents);
+        foreach ($words as $word) {
+            if (preg_match("/^@([A-Z]|[a-z]|[0-9])+$/", $word) === 1) {
+                $mentions = DWEEDER_MENTIONS_DIRECTORY . DIRECTORY_SEPARATOR . bin2hex(substr($word, 1));
+                // Make sure mentions exists
+                if (file_exists($mentions)) {
+                    // Read list
+                    $list = json_decode(file_get_contents($mentions));
+                    // Push id to list
+                    array_push($list, $id);
+                    // Write list
+                    file_put_contents($mentions, json_encode($list));
+                }
+            }
+        }
+
         // Return the dweed id
         return $id;
     }

@@ -12,9 +12,9 @@ window.addEventListener("load", async function () {
             UI.clear("dweeds");
             readDweed(parameters.get("dweed")).then((dweed) => {
                 insertDweed({
-                    display: "normal",
                     ...dweed,
-                    id: parameters.has("dweed")
+                    display: "normal",
+                    id: parameters.get("dweed")
                 });
             }).catch(alert);
         } else {
@@ -26,7 +26,7 @@ window.addEventListener("load", async function () {
 function insertDweed(dweed) {
     // Find the template
     let template = UI.find("dweed-" + dweed.display);
-    if (template === undefined)
+    if (template === null)
         template = UI.find("dweed-normal");
     // Add the dweed
     UI.find("dweeds").appendChild(UI.populate(template, dweed));
