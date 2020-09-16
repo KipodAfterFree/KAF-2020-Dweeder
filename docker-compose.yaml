@@ -11,5 +11,3 @@ services:
 
   administrator:
     build: administrator
-    ports:
-      - 8001:80
