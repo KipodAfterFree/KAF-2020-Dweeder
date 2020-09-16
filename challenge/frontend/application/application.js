@@ -1,5 +1,3 @@
-let name = "Guest";
-
 window.addEventListener("load", async function () {
     // Load modules
     await Module.import("UI");
@@ -13,7 +11,11 @@ window.addEventListener("load", async function () {
         if (parameters.has("dweed")) {
             UI.clear("dweeds");
             readDweed(parameters.get("dweed")).then((dweed) => {
-                insertDweed(dweed, "big", "dweeds");
+                insertDweed({
+                    display: "normal",
+                    ...dweed,
+                    id: parameters.has("dweed")
+                });
             }).catch(alert);
         } else {
             loadDweeds();
@@ -21,12 +23,17 @@ window.addEventListener("load", async function () {
     }
 });
 
-function insertDweed(dweed, style, container) {
-    UI.find(container).appendChild(UI.populate("dweed-" + style, dweed));
+function insertDweed(dweed) {
+    // Find the template
+    let template = UI.find("dweed-" + dweed.display);
+    if (template === undefined)
+        template = UI.find("dweed-normal");
+    // Add the dweed
+    UI.find("dweeds").appendChild(UI.populate(template, dweed));
 }
 
 function newUser() {
-    API.call("dwidder", "newUser", {
+    API.call("dweeder", "newUser", {
         name: UI.read("setup-name"),
         handle: UI.read("setup-handle"),
     }).then((token) => {
@@ -36,7 +43,7 @@ function newUser() {
 }
 
 function writeDweed() {
-    API.call("dwidder", "writeDweed", {
+    API.call("dweeder", "writeDweed", {
         token: window.localStorage.getItem("token"),
         title: UI.read("write-title"),
         contents: UI.read("write-contents")
@@ -47,7 +54,7 @@ function writeDweed() {
 
 function readDweed(id) {
     return new Promise((resolve, reject) => {
-        API.call("dwidder", "readDweed", {
+        API.call("dweeder", "readDweed", {
             token: window.localStorage.getItem("token"),
             id: id
         }).then((dweed) => {
@@ -58,7 +65,7 @@ function readDweed(id) {
                 reject("Missing contents property");
             if (!dweed.hasOwnProperty("handle"))
                 reject("Missing handle property");
-            if (!dweed.hasOwnProperty("date"))
+            if (!dweed.hasOwnProperty("time"))
                 reject("Missing date property");
             // Resolve
             resolve(dweed);
@@ -68,27 +75,35 @@ function readDweed(id) {
 
 function loadDweeds() {
     UI.clear("dweeds");
-    API.call("dwidder", "listDweed", {
+    API.call("dweeder", "listDweed", {
         token: window.localStorage.getItem("token")
     }).then((list) => {
         for (let id of list.slice(-10)) {
             readDweed(id).then((dweed) => {
-                insertDweed(dweed, "small", "dweeds");
+                insertDweed({
+                    ...dweed,
+                    display: "normal",
+                    id: id
+                });
             }).catch(alert);
         }
     }).catch(console.warn);
 }
 
 function loadMentions() {
-    UI.clear("mentions");
-    API.call("dwidder", "listMentions", {
+    UI.clear("dweeds");
+    API.call("dweeder", "listMentions", {
         token: window.localStorage.getItem("token")
     }).then((list) => {
-        readDweed(id).then((dweed) => {
-            // Modify dweed
-            dweed.id = id;
-            // Insert dweed
-            insertDweed(dweed, "tiny", "mentions");
-        }).catch(alert);
+        for (let id of list) {
+            readDweed(id).then((dweed) => {
+                // Insert dweed
+                insertDweed({
+                    display: "normal",
+                    ...dweed,
+                    id: id
+                });
+            }).catch(alert);
+        }
     }).catch(console.warn);
 }

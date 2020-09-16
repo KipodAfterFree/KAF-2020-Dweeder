@@ -15,9 +15,10 @@ body {
 
 #navigation > img {
     align-self: center;
+    padding: 1vh;
     margin: 1vh;
-    height: 5vh;
-    width: 5vh;
+    height: 3vh;
+    width: 3vh;
 }
 
 #contents {
