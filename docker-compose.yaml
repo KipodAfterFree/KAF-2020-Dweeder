@@ -4,8 +4,6 @@ services:
     build: challenge
     ports:
       - 8000:80
-    environment:
-      - TOKEN_SECRET=382u0hr08hfb
     links:
       - administrator:administrator
 

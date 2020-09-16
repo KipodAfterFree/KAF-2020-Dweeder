@@ -9,7 +9,7 @@ class Token
 {
     // Token properties
     private const DELIMITER = ":";
-    private const VARIABLE = "TOKEN_SECRET";
+    private const SECRET = "382u0hr08hfb";
 
     // Token parameters
     private const PARAMETER_EXPIRY = "expiry";
@@ -42,7 +42,7 @@ class Token
         $tokenString = base64_encode(json_encode($tokenObject));
 
         // Generate signature
-        $tokenSignature = base64_encode(hash_hmac("sha256", $tokenString, getenv(Token::VARIABLE), true));
+        $tokenSignature = base64_encode(hash_hmac("sha256", $tokenString, Token::SECRET, true));
 
         // Create token slices
         $tokenSlices = array();
@@ -74,7 +74,7 @@ class Token
         $tokenSignature = $tokenSlices[Token::SLICE_SIGNATURE];
 
         // Make sure the signature is correct
-        if (base64_encode(hash_hmac("sha256", $tokenString, getenv(Token::VARIABLE), true)) !== $tokenSignature)
+        if (base64_encode(hash_hmac("sha256", $tokenString, Token::SECRET, true)) !== $tokenSignature)
             throw new Error("Invalid token signature");
 
         // Extract token array
