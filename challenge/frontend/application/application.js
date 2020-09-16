@@ -9,28 +9,12 @@ window.addEventListener("load", async function () {
     } else {
         let parameters = new URLSearchParams(window.location.search);
         if (parameters.has("dweed")) {
-            UI.clear("dweeds");
-            readDweed(parameters.get("dweed")).then((dweed) => {
-                insertDweed({
-                    ...dweed,
-                    display: "normal",
-                    id: parameters.get("dweed")
-                });
-            }).catch(alert);
+            loadDweed(parameters.get("dweed"));
         } else {
             loadDweeds();
         }
     }
 });
-
-function insertDweed(dweed) {
-    // Find the template
-    let template = UI.find("dweed-" + dweed.display);
-    if (template === null)
-        template = UI.find("dweed-normal");
-    // Add the dweed
-    UI.find("dweeds").appendChild(UI.populate(template, dweed));
-}
 
 function newUser() {
     API.call("dweeder", "newUser", {
@@ -40,6 +24,21 @@ function newUser() {
         window.localStorage.setItem("token", token.toString());
         window.location.reload();
     }).catch(alert);
+}
+
+function insertDweed(dweed) {
+    // Find the template
+    let template = UI.find("dweed-" + dweed.display);
+    if (template === null)
+        template = UI.find("dweed-normal");
+    // Make sure id is valid
+    if (dweed.id.length > 28)
+        return;
+    for (let char of dweed.id)
+        if ("0123456789 abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ !@#$%^&*()_-+={}|".includes(char) === false)
+            return;
+    // Add the dweed
+    UI.find("dweeds").appendChild(UI.populate(template, dweed));
 }
 
 function writeDweed() {
@@ -71,6 +70,17 @@ function readDweed(id) {
             resolve(dweed);
         }).catch(reject);
     });
+}
+
+function loadDweed(id) {
+    UI.clear("dweeds");
+    readDweed(id).then((dweed) => {
+        insertDweed({
+            id: id,
+            ...dweed,
+            display: "normal"
+        });
+    }).catch(alert);
 }
 
 function loadDweeds() {

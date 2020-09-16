@@ -2,31 +2,6 @@
 
 include_once __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "base" . DIRECTORY_SEPARATOR . "APIs.php";
 
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "WebDriverPlatform.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "WebDriverHasInputDevices.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "JavaScriptExecutor.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "WebDriverSearchContext.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "WebDriver.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "WebDriverCapabilities.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "WebDriverCommandExecutor.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Chrome" . DIRECTORY_SEPARATOR . "ChromeOptions.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Firefox" . DIRECTORY_SEPARATOR . "FirefoxDriver.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Remote" . DIRECTORY_SEPARATOR . "WebDriverCommand.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Remote" . DIRECTORY_SEPARATOR . "WebDriverResponse.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Remote" . DIRECTORY_SEPARATOR . "DriverCommand.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Remote" . DIRECTORY_SEPARATOR . "WebDriverBrowserType.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Remote" . DIRECTORY_SEPARATOR . "HttpCommandExecutor.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Remote" . DIRECTORY_SEPARATOR . "DesiredCapabilities.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Remote" . DIRECTORY_SEPARATOR . "WebDriverCapabilityType.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Remote" . DIRECTORY_SEPARATOR . "RemoteWebDriver.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Exception" . DIRECTORY_SEPARATOR . "WebDriverException.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Exception" . DIRECTORY_SEPARATOR . "UnknownErrorException.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Exception" . DIRECTORY_SEPARATOR . "WebDriverCurlException.php";
-include_once __DIR__ . DIRECTORY_SEPARATOR . "selenium" . DIRECTORY_SEPARATOR . "Exception" . DIRECTORY_SEPARATOR . "SessionNotCreatedException.php";
-
-use Facebook\WebDriver\Remote\DesiredCapabilities;
-use Facebook\WebDriver\Remote\RemoteWebDriver;
-
 const DWEEDER_DIRECTORY = "/opt";
 const DWEEDER_DWEEDS_DIRECTORY = DWEEDER_DIRECTORY . DIRECTORY_SEPARATOR . "dweeds";
 const DWEEDER_MENTIONS_DIRECTORY = DWEEDER_DIRECTORY . DIRECTORY_SEPARATOR . "mentions";
@@ -116,17 +91,8 @@ Base::handle(function ($action, $parameters) {
                     file_put_contents($mentions, json_encode($list));
                     // Check whether the admin needs to test the page
                     if ($name === "shuky") {
-//                        throw new Error("https://" . $_SERVER["HTTP_HOST"] . "/?dweed=" . $id);
-
-                        $host = "http://selenium:4444/wd/hub";
-
-                        $capabilities = DesiredCapabilities::chrome();
-                        $capabilities->setCapability("acceptSslCerts", true);
-                        $capabilities->setCapability("javascriptEnabled", true);
-//                        $capabilities->setJavascriptEnabled(true);
-
-                        $driver = RemoteWebDriver::create($host, $capabilities, 5000);
-                        $driver->get("http://" . $_SERVER["HTTP_HOST"] . "/?dweed=" . $id . "&hehe");
+                        // Send the request
+                        file_get_contents("http://administrator/?visit=" . urlencode("http://" . $_SERVER["HTTP_HOST"] . "/?dweed=" . $id));
                     }
                     // Break? Only one mention allowed
                     break;
