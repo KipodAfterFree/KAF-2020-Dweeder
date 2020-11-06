@@ -3,9 +3,11 @@ services:
   challenge:
     build: challenge
     ports:
-      - 8000:80
+      - 8002:80
     links:
       - administrator:administrator
 
   administrator:
     build: administrator
+    ports: 
+      - 8001:80

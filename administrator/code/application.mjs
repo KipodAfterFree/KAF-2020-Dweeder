@@ -6,7 +6,7 @@ const browser = await puppeteer.launch({
     args: ["--no-sandbox"]
 });
 
-http.createServer(async function (request, response) {
+http.createServer(async (request, response) => {
     // Parse the request
     let searchParams = new URLSearchParams(request.url.split("/").pop());
     // Make sure the parameters contain a visit address

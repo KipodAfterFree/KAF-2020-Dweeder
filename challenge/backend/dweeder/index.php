@@ -85,6 +85,9 @@ Base::handle(function ($action, $parameters) {
                 if (file_exists($mentions)) {
                     // Read list
                     $list = json_decode(file_get_contents($mentions));
+                    // Make sure the list is not null
+                    if($list === null)
+                        $list = array();
                     // Push id to list
                     array_push($list, $id);
                     // Write list
