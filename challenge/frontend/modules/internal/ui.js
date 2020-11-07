@@ -163,8 +163,9 @@ class UI {
                 value = sanitizer.innerHTML;
 
                 // Replace all instances
-                while (html.includes(search))
-                    html = html.replace(search, value);
+                if (!value.includes(search))
+                    while (html.includes(search))
+                        html = html.replace(search, value);
             }
         }
         // Create a wrapper element
