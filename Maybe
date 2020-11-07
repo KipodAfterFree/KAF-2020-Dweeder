@@ -1,2 +1,0 @@
-page.evaluateOnNewDocument(pageFunction[, ...args])
-page.setDefaultTimeout(timeout)
